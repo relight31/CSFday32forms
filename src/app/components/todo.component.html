@@ -1,0 +1,39 @@
+<form [formGroup]="form" (ngSubmit)="processForm()">
+  <label for="name">Name:</label>
+  <input type="text" name="" id="name" formControlName="name" />
+  <button type="submit" [disabled]="form.invalid">Save</button>
+  <button
+    type="button"
+    (click)="addTodo()"
+    [disabled]="form.get('name')?.hasError('required')"
+  >
+    Add
+  </button>
+  <ng-content>
+    <!-- allows injection of html content from parent element -->
+  </ng-content>
+  <table>
+    <thead>
+      <tr>
+        <td><h1>Todos</h1></td>
+      </tr>
+    </thead>
+    <tbody formArrayName="todos">
+      <tr *ngFor="let t of todoArrayCtrl.controls" [formGroup]="t">
+        <!-- each tr is a formGroup (mini form) on its own -->
+        <!-- todoArrayCtrl.controls returns array of AbstractControl -->
+        <td><input type="text" formControlName="task" /></td>
+        <td>
+          <select formControlName="priority">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+          </select>
+        </td>
+        <td>
+          <button type="button">X</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</form>
